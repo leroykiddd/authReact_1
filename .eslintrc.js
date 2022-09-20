@@ -47,7 +47,6 @@ module.exports = {
     'prefer-template': 'error',
     indent: 'off',
     'no-unused-vars': 'off',
-    'react/require-default-props': 'warn',
     '@typescript-eslint/no-unused-vars': ['error'],
     'react/prop-types': 'off',
   },
