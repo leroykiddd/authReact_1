@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CreateContactType } from 'src/components/CreateContactModal/CreateContactModal';
 import { RequestStatusEnum } from '../../utilities';
 import { fetchContacts } from './actionCreators';
-import { ContactsResponseType } from './types';
+import { ContactsResponseType, ContactType } from './types';
 
 export type AuthState = {
   status: RequestStatusEnum;
@@ -18,7 +19,25 @@ const initialState: AuthState = {
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  reducers: {},
+  reducers: {
+    addContact: (state, action: PayloadAction<CreateContactType>) => {
+      state.contacts = [
+        { ...action.payload, id: state.contacts.length },
+        ...state.contacts,
+      ];
+    },
+    editContact: (state, action: PayloadAction<ContactType>) => {
+      const data = action.payload;
+      state.contacts = state.contacts.map((contact) =>
+        contact.id === data.id ? data : contact,
+      );
+    },
+    removeContact: (state, action: PayloadAction<{ id: number }>) => {
+      state.contacts = state.contacts.filter(
+        (contact) => contact.id !== action.payload.id,
+      );
+    },
+  },
   extraReducers: {
     [fetchContacts.fulfilled.type]: (
       state,
@@ -40,5 +59,7 @@ export const contactsSlice = createSlice({
     },
   },
 });
+
+export const { addContact, removeContact, editContact } = contactsSlice.actions;
 
 export default contactsSlice.reducer;
