@@ -22,7 +22,7 @@ export const contactsSlice = createSlice({
   reducers: {
     addContact: (state, action: PayloadAction<CreateContactType>) => {
       state.contacts = [
-        { ...action.payload, id: state.contacts.length },
+        { ...action.payload, id: state.contacts.length + 1 },
         ...state.contacts,
       ];
     },
